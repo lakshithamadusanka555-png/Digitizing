@@ -20,9 +20,10 @@
             --water: #3498db;
             --contour: #d35400;
             --road: #8e44ad;
-            --study: #27ae60;
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background: #f4f7f9; }
+        
+        /* Navigation */
         .navbar {
             background: var(--primary-dark); padding: 1rem 2rem;
             display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;
@@ -33,22 +34,29 @@
         .nav-links { display: flex; gap: 1rem; list-style: none; }
         .nav-links a { color: #ddd; text-decoration: none; font-weight: 500; cursor: pointer; }
         .nav-links a:hover { color: var(--accent); }
+        
+        /* Hero Section */
         .hero {
             background: linear-gradient(135deg, #1e3c5c, #2c5a7a);
             color: white; text-align: center; padding: 2rem 1rem;
         }
         .hero h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .hero p { opacity: 0.9; max-width: 700px; margin: 0.5rem auto; }
         .hero-btn {
             background: var(--accent); border: none; padding: 0.6rem 1.5rem;
             border-radius: 40px; color: white; font-weight: bold; cursor: pointer;
             margin-top: 1rem;
         }
+        
+        /* Main Dashboard */
         .map-dashboard { padding: 2rem; max-width: 1600px; margin: 0 auto; }
         .map-container {
             display: grid; grid-template-columns: 330px 1fr; gap: 20px;
             background: white; border-radius: 16px; overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 75vh;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); min-height: 70vh;
         }
+        
+        /* Sidebar */
         .sidebar {
             background: #fff; padding: 1.2rem; overflow-y: auto;
             border-right: 1px solid #e0e7ee; max-height: 85vh;
@@ -88,26 +96,105 @@
         .map-btn:hover { background: #0f2c44; }
         .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
         .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; }
-        #map { height: 75vh; width: 100%; background: #c8e0f0; }
+        
+        /* Map Area */
+        #map { height: 65vh; width: 100%; background: #c8e0f0; border-radius: 12px 12px 0 0; }
         .map-controls-bottom {
             display: flex; justify-content: space-between; align-items: center;
             padding: 0.8rem; background: white; border-top: 1px solid #dee2e6;
-            flex-wrap: wrap; gap: 12px;
+            flex-wrap: wrap; gap: 12px; border-radius: 0 0 12px 12px;
         }
+        
+        /* Reference Overlay Section */
+        .reference-section {
+            margin-top: 2rem;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .reference-header {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .reference-header i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        .reference-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        .reference-header p {
+            margin: 0;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-left: auto;
+        }
+        .reference-image-container {
+            padding: 1.5rem;
+            text-align: center;
+            background: #f8f9fa;
+        }
+        .reference-image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            border: 1px solid #e0e7ee;
+        }
+        .reference-caption {
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            color: #666;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .reference-caption span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Footer */
         footer {
             background: var(--primary-dark); color: white; text-align: center;
             padding: 1.5rem; margin-top: 2rem;
         }
-        @media (max-width: 900px) { .map-container { grid-template-columns: 1fr; } }
+        
+        /* Responsive */
+        @media (max-width: 900px) {
+            .map-container { grid-template-columns: 1fr; }
+            .reference-header { flex-direction: column; text-align: center; }
+            .reference-header p { margin-left: 0; }
+        }
+        
+        /* Notifications */
         .notification {
             position: fixed; bottom: 20px; right: 20px; background: #2c5a7a;
             color: white; padding: 8px 16px; border-radius: 20px; z-index: 9999;
             font-size: 0.8rem; animation: fadeIn 0.3s;
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
         .warning-badge {
             background: #f39c12; color: #2c3e50; padding: 2px 6px; border-radius: 12px;
             font-size: 0.65rem; font-weight: bold; margin-left: 8px;
+        }
+        
+        .info-note {
+            background: #e8f0fe;
+            border-left: 3px solid #3498db;
+            padding: 0.5rem;
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -123,30 +210,18 @@
 
 <section class="hero">
     <h1>Digitizing Topographic Maps → Accurate DEMs</h1>
-    <p>Contours • Rivers • Roads • (Study Area & Hillshade optional)</p>
+    <p>Interactive exploration of elevation contours, river networks, and road systems derived from topographic maps</p>
     <button class="hero-btn" onclick="document.getElementById('map-section').scrollIntoView({behavior:'smooth'})"><i class="fas fa-map"></i> Explore Layers</button>
 </section>
 
 <div class="map-dashboard" id="map-section">
     <div class="map-container">
+        <!-- Sidebar Controls -->
         <div class="sidebar">
             <!-- Vector Layers Panel -->
             <div class="panel">
                 <div class="panel-title"><i class="fas fa-layer-group"></i> Topographic Layers</div>
                 <div id="layerList">
-                    <!-- Study Area (placeholder - file missing) -->
-                    <div class="layer-card" id="card-study" style="opacity:0.7;">
-                        <div class="layer-header">
-                            <input type="checkbox" class="layer-checkbox" id="studyCheck" disabled>
-                            <span class="layer-label"><i class="fas fa-draw-polygon"></i> Study Area <span class="warning-badge">Not Found</span></span>
-                            <div class="color-badge" style="background: #95a5a6;"></div>
-                        </div>
-                        <div class="opacity-control">
-                            <i class="fas fa-adjust"></i>
-                            <input type="range" class="opacity-slider" id="studyOpacity" min="0" max="100" value="50" disabled>
-                            <span>50%</span>
-                        </div>
-                    </div>
                     <!-- Contours -->
                     <div class="layer-card" id="card-contours">
                         <div class="layer-header" onclick="toggleLayer('contours')">
@@ -187,11 +262,15 @@
                         </div>
                     </div>
                 </div>
+                
+                <div class="info-note">
+                    <i class="fas fa-info-circle"></i> <strong>Note:</strong> Data uses EPSG:5234 projection. For correct alignment, reproject to WGS84 using QGIS.
+                </div>
             </div>
 
-            <!-- Info Panel -->
+            <!-- Status & Legend Panel -->
             <div class="panel">
-                <div class="panel-title"><i class="fas fa-info-circle"></i> Layer Status</div>
+                <div class="panel-title"><i class="fas fa-chart-simple"></i> Layer Status</div>
                 <div id="statsPanel" class="stats-area">
                     <i class="fas fa-spinner fa-pulse"></i> Loading datasets...
                 </div>
@@ -199,15 +278,11 @@
                     <div class="legend-item"><div class="color-badge" style="background:#d35400;"></div><span>Contours</span></div>
                     <div class="legend-item"><div class="color-badge" style="background:#3498db;"></div><span>Rivers</span></div>
                     <div class="legend-item"><div class="color-badge" style="background:#8e44ad;"></div><span>Roads</span></div>
-                    <div class="legend-item"><div class="color-badge" style="background:#95a5a6;"></div><span>Study Area (missing)</span></div>
                 </div>
-                <div style="margin-top: 12px;">
+                <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
                     <button class="map-btn" onclick="fitToVisible()"><i class="fas fa-expand-alt"></i> Fit to Data</button>
                     <button class="map-btn" onclick="resetView()"><i class="fas fa-home"></i> Reset View</button>
-                </div>
-                <div class="stats-area" style="margin-top: 12px; background:#fdebd0;">
-                    <i class="fas fa-exclamation-triangle"></i> <strong>Note:</strong> study_area.geojson & .tif are missing (404).<br>
-                    Add your own study area shapefile via the console or by uploading.
+                    <button class="map-btn" onclick="refreshLayers()"><i class="fas fa-sync-alt"></i> Refresh</button>
                 </div>
             </div>
         </div>
@@ -221,25 +296,45 @@
                     <option value="satellite">Satellite</option>
                     <option value="topo">Topographic</option>
                 </select>
-                <button class="map-btn" onclick="refreshLayers()"><i class="fas fa-sync-alt"></i> Refresh Visibility</button>
+                <div style="font-size:0.7rem; color:#666;">
+                    <i class="fas fa-mouse-pointer"></i> Click features for attributes
+                </div>
             </div>
+        </div>
+    </div>
+    
+    <!-- Reference Overlay Section - displays the JPG image -->
+    <div class="reference-section">
+        <div class="reference-header">
+            <i class="fas fa-image"></i>
+            <h3>Reference Overlay</h3>
+            <p>Complete dataset visualization (study area + all layers)</p>
+        </div>
+        <div class="reference-image-container">
+            <img id="referenceImage" src="overlay.JPG" alt="Complete overlay of study area with contours, rivers, and roads" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x500?text=overlay.JPG+Not+Found+-+Please+add+the+image+to+the+folder'; this.parentElement.innerHTML += '<div style=\"color:red; margin-top:10px;\"><i class=\"fas fa-exclamation-triangle\"></i> overlay.JPG not found. Please ensure the image is in the same folder as this HTML file.</div>'">
+            <div class="reference-caption">
+                <span><i class="fas fa-draw-polygon" style="color:#27ae60;"></i> Study Area Boundary</span>
+                <span><i class="fas fa-chart-line" style="color:#d35400;"></i> Elevation Contours</span>
+                <span><i class="fas fa-water" style="color:#3498db;"></i> Rivers & Streams</span>
+                <span><i class="fas fa-road" style="color:#8e44ad;"></i> Roads Network</span>
+            </div>
+            <p style="font-size:0.7rem; color:#888; margin-top:0.5rem;">↓ Reference image showing all digitized layers overlaid on the study area</p>
         </div>
     </div>
 </div>
 
 <footer>
     <p>© 2025 — DEM Digitization from Topographic Maps | Contours, Rivers, Roads</p>
-    <p>Data source: Digitized vectors (EPSG:5234) overlayed on interactive map</p>
+    <p style="font-size:0.8rem">Data source: Digitized vectors (EPSG:5234) | Reference overlay shows complete dataset</p>
 </footer>
 
 <script>
     // ======================== CONFIGURATION ========================
-    // DIRECT RAW URLs to your working files (from GitHub)
+    // Direct RAW URLs to your working files (from GitHub)
     const FILE_URLS = {
         contours: "https://raw.githubusercontent.com/lakshithamadusanka555-png/Digitizing/main/Digitizing/contours.geojson",
         rivers: "https://raw.githubusercontent.com/lakshithamadusanka555-png/Digitizing/main/Digitizing/rivers.geojson",
         roads: "https://raw.githubusercontent.com/lakshithamadusanka555-png/Digitizing/main/Digitizing/roads.geojson"
-        // study_area.geojson is missing (404) - not loaded
     };
     
     // Styling for each layer
@@ -274,7 +369,7 @@
         L.control.scale({ metric: true }).addTo(map);
     }
     
-    // Load GeoJSON with robust error handling and coordinate transformation hint
+    // Load GeoJSON with robust error handling
     async function loadGeoJSON(id, url, style, checkId) {
         try {
             const response = await fetch(url);
@@ -282,18 +377,9 @@
             const data = await response.json();
             if (!data || !data.features || data.features.length === 0) throw new Error("Empty or invalid GeoJSON");
             
-            // The data is in EPSG:5234 (Sri Lanka Grid), but Leaflet expects WGS84.
-            // CRS is defined in the file but coordinates are already in meters? Actually looking at values like 240000, 180000
-            // These are projected coordinates! They need to be transformed to lat/lon.
-            // Since we don't have a proj library, we assume the file might be mis-projected.
-            // However, looking at the numbers, they are around 240000, 180000 which is NOT lat/lon.
-            // => The data is not viewable on a Web Mercator map as-is.
-            // We need to inform the user.
-            console.warn("Detected projected coordinates (EPSG:5234). The data may not align with standard basemaps.");
-            notify(`⚠️ ${id} uses projected coordinates (EPSG:5234). It will appear offset or not visible. Consider reprojecting to WGS84.`, true);
+            // The data is in EPSG:5234 projected coordinates
+            console.warn(`${id}: Using projected coordinates (EPSG:5234). May not align with standard basemaps.`);
             
-            // Attempt to display anyway – Leaflet will treat them as lat/lon, causing them to be far away.
-            // For proper display, you must reproject the GeoJSON to EPSG:4326 using QGIS or ogr2ogr.
             const layer = L.geoJSON(data, {
                 style: style,
                 onEachFeature: (feature, layerItem) => {
@@ -303,19 +389,27 @@
                             if (v && typeof v !== 'object') popup += `${k}: ${v}<br>`;
                         }
                     }
-                    popup += `<small>⚠️ Projected coordinates may not align with map.</small>`;
+                    if (id === 'contours' && feature.properties.Value) {
+                        popup += `<br><b>Elevation:</b> ${feature.properties.Value} m`;
+                    }
+                    if (id === 'rivers' && feature.properties.Name) {
+                        popup += `<br><b>River:</b> ${feature.properties.Name}`;
+                    }
+                    if (id === 'roads' && feature.properties.Name) {
+                        popup += `<br><b>Road:</b> ${feature.properties.Name}`;
+                    }
                     layerItem.bindPopup(popup);
                 }
             });
             layers[id] = layer;
             document.getElementById(checkId).disabled = false;
             layerCounts[id] = data.features.length;
-            notify(`✔ Loaded ${id}: ${data.features.length} features (but projection may be off)`, false);
+            notify(`✓ Loaded ${id}: ${data.features.length} features`, false);
             return layer;
         } catch (err) {
             console.error(`Error loading ${id}:`, err);
-            notify(`✘ Failed to load ${id}: ${err.message}. Check if file is accessible and in WGS84.`, true);
-            document.getElementById(`card-${id}`).style.opacity = '0.5';
+            notify(`✗ Failed to load ${id}: ${err.message}`, true);
+            document.getElementById(`card-${id}`).style.opacity = '0.6';
             return null;
         }
     }
@@ -327,9 +421,11 @@
         if (chk.checked) {
             map.removeLayer(layers[id]);
             chk.checked = false;
+            document.getElementById(`card-${id}`).style.opacity = '0.7';
         } else {
             map.addLayer(layers[id]);
             chk.checked = true;
+            document.getElementById(`card-${id}`).style.opacity = '1';
         }
         updateStatsPanel();
     }
@@ -346,14 +442,20 @@
     }
     
     function updateStatsPanel() {
-        let html = `<i class="fas fa-database"></i> Status:<br>`;
+        let html = `<i class="fas fa-database"></i> <strong>Layer Status</strong><br>`;
         const names = { contours: 'Contours', rivers: 'Rivers', roads: 'Roads' };
+        let anyVisible = false;
         for (let [id, name] of Object.entries(names)) {
             let visible = layers[id] && map.hasLayer(layers[id]);
             let count = layerCounts[id] || 0;
-            html += `• ${name}: ${visible ? '✅ ON' : '⭕ OFF'} (${count} features)<br>`;
+            if (visible) anyVisible = true;
+            const icon = visible ? '✅' : '⭕';
+            html += `${icon} ${name}: ${count.toLocaleString()} features<br>`;
         }
-        html += `<hr><small>⚠️ Data projection: EPSG:5234 (Sri Lanka Grid). For correct overlay, reproject to EPSG:4326 (WGS84) using QGIS.</small>`;
+        if (!anyVisible) {
+            html += `<br><span style="color:#e67e22;"><i class="fas fa-lightbulb"></i> Tip: Click layer names to toggle visibility</span>`;
+        }
+        html += `<hr><small><i class="fas fa-map-marker-alt"></i> Projection: EPSG:5234 (Sri Lanka Grid)</small>`;
         document.getElementById('statsPanel').innerHTML = html;
     }
     
@@ -369,12 +471,18 @@
                 }
             }
         }
-        if (hasBounds) map.fitBounds(bounds, { padding: [30,30] });
-        else map.setView([7.5, 80.5], 8);
+        if (hasBounds) {
+            map.fitBounds(bounds, { padding: [30,30] });
+            notify("Zoomed to visible layers");
+        } else {
+            map.setView([7.5, 80.5], 8);
+            notify("No visible layers to fit to", false);
+        }
     }
     
     function resetView() {
         map.setView([7.5, 80.5], 8);
+        notify("View reset to default");
     }
     
     function changeBasemap(type) {
@@ -382,10 +490,10 @@
         if (type === 'osm') baseMaps.osm.addTo(map);
         else if (type === 'satellite') baseMaps.satellite.addTo(map);
         else if (type === 'topo') baseMaps.topo.addTo(map);
+        notify(`Basemap changed to ${type}`);
     }
     
     function refreshLayers() {
-        // Re-apply current checkbox states
         const ids = ['contours', 'rivers', 'roads'];
         ids.forEach(id => {
             const chk = document.getElementById(`${id}Check`);
@@ -416,34 +524,56 @@
     }
     
     function showHelp() {
-        alert("📌 Important Notes:\n\n1. The contour, river, and road files are loaded, but they use projected coordinates (EPSG:5234 – Sri Lanka Grid).\n2. Leaflet expects WGS84 (lat/lon). Therefore, they will appear far away or offset.\n3. To fix: Reproject your GeoJSON files to EPSG:4326 using QGIS or ogr2ogr, then replace the URLs.\n4. The study_area.geojson and .tif are missing (404) – you can add your own after reprojection.\n\nFor a quick test, uncomment the 'study area' lines in code after adding your own file.");
+        alert("📌 DEM Digitizing Suite - Help\n\n" +
+              "• Contours: Brown lines showing elevation (values in meters)\n" +
+              "• Rivers: Blue lines representing streams and water courses\n" +
+              "• Roads: Purple lines showing road network\n\n" +
+              "⚠️ Projection Note: The data uses EPSG:5234 (Sri Lanka Grid).\n" +
+              "  For perfect alignment with basemaps, reproject to WGS84 using QGIS.\n\n" +
+              "💡 Tips:\n" +
+              "• Click on any feature to see its attributes\n" +
+              "• Use opacity sliders to adjust transparency\n" +
+              "• Reference overlay below shows complete dataset visualization\n" +
+              "• Click 'Export Map' to save as PNG");
     }
     
     // ======================== START APPLICATION ========================
     window.addEventListener('DOMContentLoaded', async () => {
         initMap();
         
-        // Load the three main layers
+        // Load all three layers
         await loadGeoJSON('contours', FILE_URLS.contours, layerStyles.contours, 'contoursCheck');
         await loadGeoJSON('rivers', FILE_URLS.rivers, layerStyles.rivers, 'riversCheck');
         await loadGeoJSON('roads', FILE_URLS.roads, layerStyles.roads, 'roadsCheck');
         
-        // Turn on all layers by default (user can toggle)
-        if (layers.contours) { map.addLayer(layers.contours); document.getElementById('contoursCheck').checked = true; }
-        if (layers.rivers) { map.addLayer(layers.rivers); document.getElementById('riversCheck').checked = true; }
-        if (layers.roads) { map.addLayer(layers.roads); document.getElementById('roadsCheck').checked = true; }
+        // Enable all layers by default (user can toggle)
+        if (layers.contours) { 
+            map.addLayer(layers.contours); 
+            document.getElementById('contoursCheck').checked = true;
+        }
+        if (layers.rivers) { 
+            map.addLayer(layers.rivers); 
+            document.getElementById('riversCheck').checked = true;
+        }
+        if (layers.roads) { 
+            map.addLayer(layers.roads); 
+            document.getElementById('roadsCheck').checked = true;
+        }
         
         updateStatsPanel();
         
         // Try to fit to contours if available
-        if (layers.contours && layers.contours.getBounds().isValid()) {
-            try { map.fitBounds(layers.contours.getBounds(), { padding: [30,30] }); }
-            catch(e) { console.log("Could not fit bounds"); }
+        if (layers.contours && layers.contours.getBounds && layers.contours.getBounds().isValid()) {
+            try { 
+                map.fitBounds(layers.contours.getBounds(), { padding: [30,30] }); 
+            } catch(e) { 
+                console.log("Could not fit bounds"); 
+            }
         } else {
             map.setView([7.5, 80.5], 8);
         }
         
-        notify("Ready! Note: Data uses projected coordinates – may need reprojection to align correctly.");
+        notify("Ready! Click layer names to toggle visibility. Reference overlay shown below map.");
     });
 </script>
 </body>
