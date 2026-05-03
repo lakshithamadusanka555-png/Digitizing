@@ -105,15 +105,15 @@
             flex-wrap: wrap; gap: 12px; border-radius: 0 0 12px 12px;
         }
         
-        /* Reference Overlay Section */
-        .reference-section {
+        /* Reference Images Section - Three images side by side */
+        .reference-gallery {
             margin-top: 2rem;
             background: white;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .reference-header {
+        .gallery-header {
             background: var(--primary-dark);
             color: white;
             padding: 1rem 1.5rem;
@@ -121,45 +121,61 @@
             align-items: center;
             gap: 12px;
         }
-        .reference-header i {
+        .gallery-header i {
             font-size: 1.5rem;
             color: var(--accent);
         }
-        .reference-header h3 {
+        .gallery-header h3 {
             margin: 0;
             font-size: 1.2rem;
         }
-        .reference-header p {
+        .gallery-header p {
             margin: 0;
             font-size: 0.8rem;
             opacity: 0.8;
             margin-left: auto;
         }
-        .reference-image-container {
+        .images-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             padding: 1.5rem;
-            text-align: center;
+            justify-content: center;
             background: #f8f9fa;
         }
-        .reference-image-container img {
-            max-width: 100%;
-            height: auto;
+        .image-card {
+            flex: 1;
+            min-width: 250px;
+            background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            border: 1px solid #e0e7ee;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .reference-caption {
-            margin-top: 0.8rem;
-            font-size: 0.8rem;
+        .image-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .image-card img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            background: #e9ecef;
+            border-bottom: 1px solid #e0e7ee;
+        }
+        .image-caption {
+            padding: 0.8rem;
+            text-align: center;
+            background: white;
+        }
+        .image-caption h4 {
+            color: var(--primary-dark);
+            margin-bottom: 0.3rem;
+            font-size: 1rem;
+        }
+        .image-caption p {
+            font-size: 0.7rem;
             color: #666;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-        .reference-caption span {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
         }
         
         /* Footer */
@@ -171,8 +187,10 @@
         /* Responsive */
         @media (max-width: 900px) {
             .map-container { grid-template-columns: 1fr; }
-            .reference-header { flex-direction: column; text-align: center; }
-            .reference-header p { margin-left: 0; }
+            .gallery-header { flex-direction: column; text-align: center; }
+            .gallery-header p { margin-left: 0; }
+            .images-container { flex-direction: column; align-items: center; }
+            .image-card { width: 100%; max-width: 400px; }
         }
         
         /* Notifications */
@@ -183,18 +201,9 @@
         }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .warning-badge {
-            background: #f39c12; color: #2c3e50; padding: 2px 6px; border-radius: 12px;
+        .success-badge {
+            background: #27ae60; color: white; padding: 2px 6px; border-radius: 12px;
             font-size: 0.65rem; font-weight: bold; margin-left: 8px;
-        }
-        
-        .info-note {
-            background: #e8f0fe;
-            border-left: 3px solid #3498db;
-            padding: 0.5rem;
-            font-size: 0.7rem;
-            margin-top: 0.5rem;
-            border-radius: 4px;
         }
     </style>
 </head>
@@ -262,10 +271,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="info-note">
-                    <i class="fas fa-info-circle"></i> <strong>Note:</strong> Data uses EPSG:5234 projection. For correct alignment, reproject to WGS84 using QGIS.
-                </div>
             </div>
 
             <!-- Status & Legend Panel -->
@@ -303,29 +308,51 @@
         </div>
     </div>
     
-    <!-- Reference Overlay Section - displays the JPG image -->
-    <div class="reference-section">
-        <div class="reference-header">
-            <i class="fas fa-image"></i>
-            <h3>Reference Overlay</h3>
-            <p>Complete dataset visualization (study area + all layers)</p>
+    <!-- Reference Images Gallery - Three images side by side -->
+    <div class="reference-gallery">
+        <div class="gallery-header">
+            <i class="fas fa-images"></i>
+            <h3>Digitization Reference Gallery</h3>
+            <p>Study Area → Digitized Layers → Complete Overlay</p>
         </div>
-        <div class="reference-image-container">
-            <img id="referenceImage" src="overlay.JPG" alt="Complete overlay of study area with contours, rivers, and roads" onerror="this.onerror=null; this.src='https://via.placeholder.com/800x500?text=overlay.JPG+Not+Found+-+Please+add+the+image+to+the+folder'; this.parentElement.innerHTML += '<div style=\"color:red; margin-top:10px;\"><i class=\"fas fa-exclamation-triangle\"></i> overlay.JPG not found. Please ensure the image is in the same folder as this HTML file.</div>'">
-            <div class="reference-caption">
-                <span><i class="fas fa-draw-polygon" style="color:#27ae60;"></i> Study Area Boundary</span>
-                <span><i class="fas fa-chart-line" style="color:#d35400;"></i> Elevation Contours</span>
-                <span><i class="fas fa-water" style="color:#3498db;"></i> Rivers & Streams</span>
-                <span><i class="fas fa-road" style="color:#8e44ad;"></i> Roads Network</span>
+        <div class="images-container">
+            <!-- Study Area Image -->
+            <div class="image-card">
+                <img id="studyAreaImg" src="studyarea.jpg" alt="Study Area Boundary" 
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x280?text=studyarea.jpg+Not+Found'; this.parentElement.querySelector('.image-caption p').innerHTML += ' ⚠️ File missing'">
+                <div class="image-caption">
+                    <h4><i class="fas fa-draw-polygon" style="color:#27ae60;"></i> Study Area</h4>
+                    <p>Original study area boundary extent</p>
+                </div>
             </div>
-            <p style="font-size:0.7rem; color:#888; margin-top:0.5rem;">↓ Reference image showing all digitized layers overlaid on the study area</p>
+            <!-- Digitized Layers Image -->
+            <div class="image-card">
+                <img id="digitizedImg" src="digitized.jpg" alt="Digitized Layers" 
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x280?text=digitized.jpg+Not+Found'; this.parentElement.querySelector('.image-caption p').innerHTML += ' ⚠️ File missing'">
+                <div class="image-caption">
+                    <h4><i class="fas fa-layer-group" style="color:#e67e22;"></i> Digitized Layers</h4>
+                    <p>Extracted contours, rivers & roads</p>
+                </div>
+            </div>
+            <!-- Overlay Image -->
+            <div class="image-card">
+                <img id="overlayImg" src="overlay.jpg" alt="Complete Overlay" 
+                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x280?text=overlay.jpg+Not+Found'; this.parentElement.querySelector('.image-caption p').innerHTML += ' ⚠️ File missing'">
+                <div class="image-caption">
+                    <h4><i class="fas fa-map-marked-alt" style="color:#3498db;"></i> Complete Overlay</h4>
+                    <p>All layers combined on study area</p>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; padding: 0.5rem 1rem 1rem; font-size: 0.7rem; color: #888; border-top: 1px solid #e0e7ee;">
+            <i class="fas fa-info-circle"></i> Reference images showing the digitization workflow
         </div>
     </div>
 </div>
 
 <footer>
     <p>© 2025 — DEM Digitization from Topographic Maps | Contours, Rivers, Roads</p>
-    <p style="font-size:0.8rem">Data source: Digitized vectors (EPSG:5234) | Reference overlay shows complete dataset</p>
+    <p style="font-size:0.8rem">Interactive map with vector layers | Reference gallery shows complete dataset</p>
 </footer>
 
 <script>
@@ -369,16 +396,13 @@
         L.control.scale({ metric: true }).addTo(map);
     }
     
-    // Load GeoJSON with robust error handling
+    // Load GeoJSON
     async function loadGeoJSON(id, url, style, checkId) {
         try {
             const response = await fetch(url);
-            if (!response.ok) throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const data = await response.json();
-            if (!data || !data.features || data.features.length === 0) throw new Error("Empty or invalid GeoJSON");
-            
-            // The data is in EPSG:5234 projected coordinates
-            console.warn(`${id}: Using projected coordinates (EPSG:5234). May not align with standard basemaps.`);
+            if (!data || !data.features || data.features.length === 0) throw new Error("Empty GeoJSON");
             
             const layer = L.geoJSON(data, {
                 style: style,
@@ -404,7 +428,7 @@
             layers[id] = layer;
             document.getElementById(checkId).disabled = false;
             layerCounts[id] = data.features.length;
-            notify(`✓ Loaded ${id}: ${data.features.length} features`, false);
+            notify(`✓ Loaded ${id}: ${data.features.length} features`);
             return layer;
         } catch (err) {
             console.error(`Error loading ${id}:`, err);
@@ -421,11 +445,9 @@
         if (chk.checked) {
             map.removeLayer(layers[id]);
             chk.checked = false;
-            document.getElementById(`card-${id}`).style.opacity = '0.7';
         } else {
             map.addLayer(layers[id]);
             chk.checked = true;
-            document.getElementById(`card-${id}`).style.opacity = '1';
         }
         updateStatsPanel();
     }
@@ -455,7 +477,6 @@
         if (!anyVisible) {
             html += `<br><span style="color:#e67e22;"><i class="fas fa-lightbulb"></i> Tip: Click layer names to toggle visibility</span>`;
         }
-        html += `<hr><small><i class="fas fa-map-marker-alt"></i> Projection: EPSG:5234 (Sri Lanka Grid)</small>`;
         document.getElementById('statsPanel').innerHTML = html;
     }
     
@@ -476,7 +497,7 @@
             notify("Zoomed to visible layers");
         } else {
             map.setView([7.5, 80.5], 8);
-            notify("No visible layers to fit to", false);
+            notify("No visible layers to fit to");
         }
     }
     
@@ -528,13 +549,11 @@
               "• Contours: Brown lines showing elevation (values in meters)\n" +
               "• Rivers: Blue lines representing streams and water courses\n" +
               "• Roads: Purple lines showing road network\n\n" +
-              "⚠️ Projection Note: The data uses EPSG:5234 (Sri Lanka Grid).\n" +
-              "  For perfect alignment with basemaps, reproject to WGS84 using QGIS.\n\n" +
               "💡 Tips:\n" +
               "• Click on any feature to see its attributes\n" +
               "• Use opacity sliders to adjust transparency\n" +
-              "• Reference overlay below shows complete dataset visualization\n" +
-              "• Click 'Export Map' to save as PNG");
+              "• Reference gallery below shows digitization workflow\n" +
+              "• Click 'Export Map' to save current view as PNG");
     }
     
     // ======================== START APPLICATION ========================
@@ -546,7 +565,7 @@
         await loadGeoJSON('rivers', FILE_URLS.rivers, layerStyles.rivers, 'riversCheck');
         await loadGeoJSON('roads', FILE_URLS.roads, layerStyles.roads, 'roadsCheck');
         
-        // Enable all layers by default (user can toggle)
+        // Enable all layers by default
         if (layers.contours) { 
             map.addLayer(layers.contours); 
             document.getElementById('contoursCheck').checked = true;
@@ -562,18 +581,18 @@
         
         updateStatsPanel();
         
-        // Try to fit to contours if available
+        // Set initial view
         if (layers.contours && layers.contours.getBounds && layers.contours.getBounds().isValid()) {
             try { 
                 map.fitBounds(layers.contours.getBounds(), { padding: [30,30] }); 
             } catch(e) { 
-                console.log("Could not fit bounds"); 
+                map.setView([7.5, 80.5], 8);
             }
         } else {
             map.setView([7.5, 80.5], 8);
         }
         
-        notify("Ready! Click layer names to toggle visibility. Reference overlay shown below map.");
+        notify("Ready! Toggle layers using checkboxes. Reference images shown below.");
     });
 </script>
 </body>
